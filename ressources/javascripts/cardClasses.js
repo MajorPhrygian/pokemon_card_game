@@ -58,7 +58,7 @@ class Pokemon extends Card {
         this._resistance = resistance;
         this._retreatCost = retreatCost;
         this._energies = [];
-        this._energyAmount;
+        this._energyAmount = 0;
         // this._colorlessEnergies = 0;
         // this._waterEnergies = 0;
         // this._fightingEnergies = 0;

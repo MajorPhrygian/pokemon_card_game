@@ -13,7 +13,7 @@ const createPokemonCardDisplay = (card, number) => {
             <div id="type">${card.type}</div>
         </div>
         <div id="card-energies">
-            <div>Energies: ${card.colorlessEnergies}c ${card.waterEnergies}w ${card.fightingEnergies}f</div>
+            <div>${card.energyAmount} Energies</div>
         </div>
 
         <div id='attack-container'>
@@ -21,9 +21,7 @@ const createPokemonCardDisplay = (card, number) => {
         </div>
 
         <div id="card-footer">
-            <div id="weakness">Weakness: ${card.weakness}</div>
-            <div id="resistance">Resistance: ${card.resistance}</div>
-            <div id="retreat-cost">Retreat: ${card.retreatCost}</div>
+            <div id="retreat-cost">Retreat cost: ${card.retreatCost} Energy</div>
         </div>
     `;
     displayCard.innerHTML = htmlCardContent; 
@@ -58,7 +56,7 @@ const createPokemonCardDisplay = (card, number) => {
         htmlAttackContent.setAttribute('id', `${attack.id}`);
         htmlAttackContent.innerHTML = `
             <div id="attack-header">
-                <div id="attack-energy" class='attack-energy${x}'> ${attack.energy}</div>
+                <div id="attack-energy" class='attack-energy${x}'>${attack.energy} Energy</div>
                 <div id="attack-name" class='attack-name${x}'>${attack.name}</div>
                 <div id="attack-points" class='attack-points${x}'>${attack.points}</div>
             </div>
