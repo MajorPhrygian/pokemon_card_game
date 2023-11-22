@@ -1,0 +1,191 @@
+body {
+    background-color: darkkhaki;
+}
+
+header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+#phase {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#ticker {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#options {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1rem;
+}
+
+.option {
+    border: 2px rgb(238, 238, 145) solid;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.option:hover {
+    border: 2px hsl(60, 52%, 83%) solid;
+    background-color: hsl(56, 48%, 64%);
+}
+
+#mat-header1,  #mat-header2 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#activePlayer {
+    width: 33%;
+}
+
+#prizes-deck {
+    width: 33%;
+    text-align: right;
+}
+
+button {
+    display: block;
+    margin: auto;
+}
+
+button:hover {
+    background-color: hsl(34, 82%, 89%);
+}
+
+.card-countainer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.card {
+    border: 2px rgb(238, 238, 145) solid;
+    padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 400px;
+}
+
+.card:hover {
+    border: 2px hsl(60, 52%, 83%) solid;
+    background-color: hsl(56, 48%, 64%);
+}
+
+.hoverActiveAttack:hover {
+    border: 2px hsl(60, 52%, 83%) solid;
+    background-color: hsl(56, 43%, 65%);
+}
+
+.hoverActiveAbility:hover {
+    border: 2px hsl(60, 52%, 83%) solid;
+    background-color: hsl(56, 43%, 65%);
+}
+
+#card-header {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px rgb(238, 238, 145) solid;
+    padding-bottom: .5rem;
+}
+
+#card-energies {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px rgb(238, 238, 145) solid;
+    /* padding-bottom: .5rem; */
+}
+
+#name {
+    display: inline;
+    font-size: 1.3rem;
+}
+
+#id {
+    display: none;
+}
+
+#hp {
+    display: inline;
+    font-size: 1.5rem;
+}
+
+#evolution {
+    display: inline;
+}
+
+#energy {
+    display: inline;
+}
+
+.card-ability {
+    display: flex;
+    flex-direction: column;
+    margin: .5rem 0 1rem 0;
+}
+
+#ability-header {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+#ability-name {
+    font-size: 1.2rem;
+    width: 33%;
+}
+
+#ability-points {
+    font-size: 1.2rem;
+}
+
+#ability-label {
+    color: rgb(255, 60, 0);
+    font-weight: bold;
+    font: 1.2rem;
+    border: 1px solid rgb(255, 60, 0);
+    
+}
+
+.card-attack {
+    display: flex;
+    flex-direction: column;
+    margin: .5rem 0;
+}
+
+#attack-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#attack-name {
+    font-size: 1.2rem;
+}
+
+#attack-points {
+    font-size: 1.2rem;
+}
+
+#card-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: .75rem;
+    border-top: 1px rgb(238, 238, 145) solid;
+    padding-top: .5rem;
+}
