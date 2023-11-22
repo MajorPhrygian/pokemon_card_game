@@ -58,9 +58,10 @@ class Pokemon extends Card {
         this._resistance = resistance;
         this._retreatCost = retreatCost;
         this._energies = [];
-        this._colorlessEnergies = 0;
-        this._waterEnergies = 0;
-        this._fightingEnergies = 0;
+        this._energyAmount;
+        // this._colorlessEnergies = 0;
+        // this._waterEnergies = 0;
+        // this._fightingEnergies = 0;
         this._evolvesFrom = evolvesFrom;
         this._isInvincible = false;
         this._canAttack = true;
@@ -119,29 +120,44 @@ class Pokemon extends Card {
         return this._energies;let retreatCost = chosenCard1.retreatCost;
     }
 
-    get colorlessEnergies () {
-        return this._colorlessEnergies;
+    get energyAmount () {
+        return this._energyAmount;
     }
 
-    set colorlessEnergies (variation) {
-        this._colorlessEnergies += variation;
+    set energyAmount (newAmount) {
+        this._energyAmount = newAmount;
     }
 
-    get waterEnergies () {
-        return this._waterEnergies;
+    modifyEnergyAmount (increment) {
+        this._energyAmount += increment;
+        if (this._energyAmount < 0) {
+            this._energyAmount = 0;
+        }
     }
 
-    set waterEnergies (newValue) {
-        this._waterEnergies = newValue;
-    }
+    // get colorlessEnergies () {
+    //     return this._colorlessEnergies;
+    // }
 
-    get fightingEnergies () {
-        return this._fightingEnergies;
-    }
+    // set colorlessEnergies (variation) {
+    //     this._colorlessEnergies += variation;
+    // }
 
-    set fightingEnergies (variation) {
-        this._fightingEnergies += variation;
-    }
+    // get waterEnergies () {
+    //     return this._waterEnergies;
+    // }
+
+    // set waterEnergies (newValue) {
+    //     this._waterEnergies = newValue;
+    // }
+
+    // get fightingEnergies () {
+    //     return this._fightingEnergies;
+    // }
+
+    // set fightingEnergies (variation) {
+    //     this._fightingEnergies += variation;
+    // }
 
     get evolvesFrom () {
         return this._evolvesFrom;
@@ -174,50 +190,25 @@ class Pokemon extends Card {
     addEnergy (energy) {
         energy.location = `Pokemon ID${this.id}`;
         this._energies.push(energy);
-        switch (energy.type){
-            case 'w': this._waterEnergies += 1; break;
-            case 'c': this._colorlessEnergies += 1; break;
-            case 'f': this._fightingEnergies += 1; break;
-        }
+        this.modifyEnergyAmount(1);
+        // switch (energy.type){
+        //     case 'w': this._waterEnergies += 1; break;
+        //     case 'c': this._colorlessEnergies += 1; break;
+        //     case 'f': this._fightingEnergies += 1; break;
+        // }
     }
 
     // This method validates the energy requirement of an attack against the attached energies
     checkEnergies (attackRequirement){
-        let requirementArray = formatEnergyRequirementToArray(attackRequirement);
+        // let requirementArray = formatEnergyRequirementToArray(attackRequirement);
 
         // Checking for requirements : Total number of energies
         let validated = true;
-        let totalEnergiesNeeded = 0;
-        let totalEnergies = this._colorlessEnergies + this._fightingEnergies + this._waterEnergies;
-        requirementArray.forEach(requirement => {
-            totalEnergiesNeeded += Number(requirement[0]);
-        });
-        if (totalEnergies < totalEnergiesNeeded) {
+        // let totalEnergiesNeeded = 0;
+        if (this._energyAmount < attackRequirement) {
             validated = false;
-            return validated;
         }
         
-        requirementArray.forEach(requirement => {
-            switch (requirement[1]){
-                case "w": {
-                    if (this.waterEnergies < requirement[0]) {
-                        validated = false;                    }
-                    break;
-                }
-                // case "c": {
-                //     if (this.colorlessEnergies < requirement[0]) {
-                //         validated = false;
-                //     }
-                //     break;
-                // }
-                case "f": {
-                    if (this.fightingEnergies < requirement[0]) {
-                        validated = false;                    
-                    }
-                    break;
-                }
-            }
-        });
         return validated;
     }
 
@@ -229,44 +220,15 @@ class Pokemon extends Card {
     // This method removes paid energy cost and adjusts energy counts
     // As well, it returns the cards to be sent to the discard at the Player level
     payEnergyCost (energyCost) {
-        let requirementArray = formatEnergyRequirementToArray(energyCost);
         let toDiscardArray = [];
+
+        // removing cards
+        let cardToDiscard = this.energies.splice(0, energyCost);
+        toDiscardArray.push(cardToDiscard);
         
-        // Trying to pay the const in colorless energies first
+        // adjusting energy amount
+        this.modifyEnergyAmount(-energyCost);
 
-        requirementArray.forEach(requirement => {
-            
-            // removing cards
-            let numberOfCardsFound = 0;
-            let index = 0;
-            let cardToDiscard;
-            do {
-                if (this.energies[index].type === requirement[1] || requirement[1] === 'c') {
-                    cardToDiscard = this.energies.splice(index, 1)[0];
-                    toDiscardArray.push(cardToDiscard);
-                    index -= 1;
-                    numberOfCardsFound += 1;
-
-                    // adjusting the energy counts
-                    switch (cardToDiscard.type){
-                        case "w": {
-                            this.waterEnergies -= 1;
-                            break;
-                        }
-                        case "c": {
-                            this.colorlessEnergies -= 1;
-                            break;
-                        }
-                        case "f": {
-                            this.fightingEnergies -= 1;
-                            break;
-                        }
-                    }
-                }
-                index += 1;
-            } while (numberOfCardsFound < requirement[0]);
-
-        });
         return toDiscardArray;
     }
 
@@ -302,7 +264,7 @@ class Pokemon extends Card {
 
 class Chien_Pao extends Pokemon {
     constructor (id){
-        super(id, 'Chien-Pao', 220, 'Water', 'Basic', 'Mx2', "", '2c');
+        super(id, 'Chien-Pao', 220, 'Water', 'Basic', 'Mx2', "", 2);
         this._ability = {
             name: 'Shivery Chill',
             description: 'Once during your turn, if this Pokemon is in the Active Spot, you may choose up to 2 Basic Water Energy card from your Deck, and put them into your hand.',
@@ -391,7 +353,7 @@ class Chien_Pao extends Pokemon {
         },
         this._attacks = [{
             name: "Hail Blade",
-            energy: '2w',
+            energy: 2,
             points: 60,
             description: 'You may discard any amount of water energy from your Pokemon. This attack does 60 damage for each card your discarded in this way.',
             enabled: true,
@@ -418,7 +380,7 @@ class Chien_Pao extends Pokemon {
                 // Removing used energies
                 // The payEnergyCost() is Pokemon function, not a Player function. 
                 // It need to be used with addToDiscard
-                let cardsToDiscard = activePlayer.active.payEnergyCost(`${numberOfEnergiesToSpend}w`);
+                let cardsToDiscard = activePlayer.active.payEnergyCost(numberOfEnergiesToSpend);
                 cardsToDiscard.forEach(card => {
                     activePlayer.addToDiscard(card);
                 });
@@ -439,10 +401,10 @@ class Chien_Pao extends Pokemon {
 
 class Bruxish extends Pokemon {
     constructor (id){
-        super(id, 'Bruxish', 100, 'Water', 'Basic', 'Ex2', "", '1c');
+        super(id, 'Bruxish', 100, 'Water', 'Basic', 'Ex2', "", 1);
         this._attacks = [{
             name: "Vivid Charge",
-            energy: '1w',
+            energy: 1,
             points: 0,
             description: 'Search your deck for up to three basic energy cards, reveal them, and put them into your hand. Then, shuffle your deck.',
             enabled: true,
@@ -523,7 +485,7 @@ class Bruxish extends Pokemon {
         },
         {
             name: "Wave Splash",
-            energy: '1w1c',
+            energy: 1,
             points: 60,
             description: '',
             enabled: true,
@@ -542,10 +504,10 @@ class Bruxish extends Pokemon {
 
 class Buizel extends Pokemon {
     constructor (id){
-        super(id, 'Buizel', 70, 'Water', 'Basic', 'Ex2', "", '1c');
+        super(id, 'Buizel', 70, 'Water', 'Basic', 'Ex2', "", 1);
         this._attacks = [{
             name: "Rain Splash",
-            energy: '1w',
+            energy: 1,
             points: 10,
             description: '',
             enabled: true,
@@ -560,7 +522,7 @@ class Buizel extends Pokemon {
         },
         {
             name: "Razor Fin",
-            energy: '2c',
+            energy: 2,
             points: 20,
             description: '',
             enabled: true,
@@ -579,10 +541,10 @@ class Buizel extends Pokemon {
 
 class Floatzel extends Pokemon {
     constructor (id){
-        super(id, 'Floatzel', 120, 'Water', 'Level 1', 'Ex2', "", '1c', 'Buizel');
+        super(id, 'Floatzel', 120, 'Water', 'Level 1', 'Ex2', "", 1, 'Buizel');
         this._attacks = [{
             name: "Hydro Pump",
-            energy: '2c',
+            energy: 2,
             points: 50,
             description: 'This attack does 20 more damage for each Water Energy attached to this Pokemon.',
             enabled: true,
@@ -601,10 +563,10 @@ class Floatzel extends Pokemon {
 
 class Frigibax extends Pokemon {
     constructor (id){
-        super(id, 'Frigibax', 60, 'Water', 'Basic', 'Mx2', "", '1c');
+        super(id, 'Frigibax', 60, 'Water', 'Basic', 'Mx2', "", 1);
         this._attacks = [{
             name: "Tackle",
-            energy: '1w1c',
+            energy: 2,
             points: 30,
             description: '',
             enabled: true,
@@ -622,10 +584,10 @@ class Frigibax extends Pokemon {
 
 class Arctibax extends Pokemon {
     constructor (id){
-        super(id, 'Arctibax', 90, 'Water', 'Level 1', 'Mx2', "", '2c', 'Frigibax');
+        super(id, 'Arctibax', 90, 'Water', 'Level 1', 'Mx2', "", 2, 'Frigibax');
         this._attacks = [{
             name: "Sharp Fin",
-            energy: '1w1c',
+            energy: 2,
             points: 40,
             description: '',
             enabled: true,
@@ -640,7 +602,7 @@ class Arctibax extends Pokemon {
             },
             {
             name: "Frost Smash",
-            energy: '2w1c',
+            energy: 3,
             points: 80,
             description: '',
             enabled: true,
@@ -658,7 +620,7 @@ class Arctibax extends Pokemon {
 
 class Baxcalibur extends Pokemon {
     constructor (id){
-        super(id, 'Baxcalibur', 160, 'Water', 'Level 2', 'Mx2', "", '2c', 'Arctibax');
+        super(id, 'Baxcalibur', 160, 'Water', 'Level 2', 'Mx2', "", 2, 'Arctibax');
         this._ability = {
             name: 'Super Cold',
             description: 'As often as you like during your turn, you may attach a Basic Water Energy card from your hand to 1 of your Pokemons.',
@@ -743,7 +705,7 @@ class Baxcalibur extends Pokemon {
         }
         this._attacks = [{
             name: "Buster Tail",
-            energy: '2w1c',
+            energy: 3,
             points: 130,
             description: '',
             enabled: true,
@@ -760,10 +722,10 @@ class Baxcalibur extends Pokemon {
 
 class Delibird extends Pokemon {
     constructor (id){
-        super(id, 'Delibird', 90, 'Water', 'Basic', 'Mx2', "", '1c');
+        super(id, 'Delibird', 90, 'Water', 'Basic', 'Mx2', "", 1);
         this._attacks = [{
             name: "Double Draw",
-            energy: '1c',
+            energy: 1,
             points: 0,
             description: 'Draw 2 cards.',
             enabled: true,
@@ -779,7 +741,7 @@ class Delibird extends Pokemon {
             },
             {
             name: "Ice Wing",
-            energy: '1w1c',
+            energy: 2,
             points: 30,
             description: '',
             enabled: true,
@@ -797,10 +759,10 @@ class Delibird extends Pokemon {
 
 class Marill extends Pokemon {
     constructor (id){
-        super(id, 'Marill', 70, 'Water', 'Basic', 'Ex2', "", '1c');
+        super(id, 'Marill', 70, 'Water', 'Basic', 'Ex2', "", 1);
         this._attacks = [{
             name: "Bubble Drain",
-            energy: '1w1c',
+            energy: 2,
             points: 20,
             description: 'Heals 20 damage from this pokemon.',
             enabled: true,
@@ -824,10 +786,10 @@ class Marill extends Pokemon {
 
 class Azumarill extends Pokemon {
     constructor (id){
-        super(id, 'Azumarill', 120, 'Water', 'Level 1', 'Mx2', "", '1c', 'Marill');
+        super(id, 'Azumarill', 120, 'Water', 'Level 1', 'Mx2', "", 1, 'Marill');
         this._attacks = [{
             name: "Bubble Drain",
-            energy: '1w1c',
+            energy: 2,
             points: 50,
             description: 'Heals 30 damage from this Pokemon.',
             enabled: true,
@@ -848,7 +810,7 @@ class Azumarill extends Pokemon {
             },
             {
             name: "Slam",
-            energy: '1w2c',
+            energy: 3,
             points: 100,
             description: 'Flip 2 coins. This attack does 100 damage for each heads.',
             enabled: true,
@@ -877,10 +839,10 @@ class Azumarill extends Pokemon {
 
 class Cyclizar extends Pokemon {
     constructor (id){
-        super(id, 'Cyclizar', 110, 'Colorless', 'Basic', 'Fx2', "", '');
+        super(id, 'Cyclizar', 110, 'Colorless', 'Basic', 'Fx2', "", 0);
         this._attacks = [{
             name: "Touring",
-            energy: '1c',
+            energy: 1,
             points: 0,
             description: 'Draw 2 cards.',
             enabled: true,
@@ -896,7 +858,7 @@ class Cyclizar extends Pokemon {
             },
             {
             name: "Speed Attack",
-            energy: '3c',
+            energy: 3,
             points: 100,
             description: '',
             enabled: true,
@@ -914,11 +876,11 @@ class Cyclizar extends Pokemon {
 
 class Koraidon extends Pokemon {
     constructor (id){
-        super(id, 'Koraidon', 130, 'Fighting', 'Basic', 'Fx2', "", '2c');
+        super(id, 'Koraidon', 130, 'Fighting', 'Basic', 'Fx2', "", 2);
         this._attacks = [
         {
             name: "Claw Slash",
-            energy: '3c',
+            energy: 3,
             points: 70,
             description: '',
             enabled: true,
@@ -932,7 +894,7 @@ class Koraidon extends Pokemon {
         },
         {
             name: "Rampaging Fang",
-            energy: '3f1c',
+            energy: 4,
             points: 190,
             description: 'Discard 3 Energy from this Pokemon.',
             enabled: true,
@@ -944,7 +906,7 @@ class Koraidon extends Pokemon {
                 // Removing used energies
                 // The payEnergyCost() is Pokemon function, not a Player function. 
                 // It need to be used with addToDiscard
-                let cardsToDiscard = activePlayer.active.payEnergyCost(`${numberOfEnergiesToSpend}f`);
+                let cardsToDiscard = activePlayer.active.payEnergyCost(numberOfEnergiesToSpend);
                 cardsToDiscard.forEach(card => {
                     activePlayer.addToDiscard(card);
                 });
@@ -963,10 +925,10 @@ class Koraidon extends Pokemon {
 
 class Lechonk extends Pokemon {
     constructor (id){
-        super(id, 'Lechonk', 60, 'Colorless', 'Basic', 'Fx2', "", '1c');
+        super(id, 'Lechonk', 60, 'Colorless', 'Basic', 'Fx2', "", 1);
         this._attacks = [{
             name: "Collect",
-            energy: '1c',
+            energy: 1,
             points: 0,
             description: 'Draw a card.',
             enabled: true,
@@ -982,7 +944,7 @@ class Lechonk extends Pokemon {
             },
             {
             name: "Tackle",
-            energy: '3c',
+            energy: 3,
             points: 30,
             description: '',
             enabled: true,
@@ -1000,11 +962,11 @@ class Lechonk extends Pokemon {
 
 class Oinkologne extends Pokemon {
     constructor (id){
-        super(id, 'Oinkologne', 120, 'Colorless', 'Level 1', 'Fx2', "", '2c', 'Lechonk');
+        super(id, 'Oinkologne', 120, 'Colorless', 'Level 1', 'Fx2', "", 2, 'Lechonk');
         this._attacks = [
         {
             name: "Ram",
-            energy: '2c',
+            energy: 2,
             points: 50,
             description: '',
             enabled: true,
@@ -1018,7 +980,7 @@ class Oinkologne extends Pokemon {
         },
         {
             name: "Leg Stomp",
-            energy: '3c',
+            energy: 3,
             points: 130,
             description: `Flip a coin. If tails, during your next turn, this Pokemon can't attack.`,
             enabled: true,
@@ -1051,10 +1013,10 @@ class Oinkologne extends Pokemon {
 
 class Mankey extends Pokemon {
     constructor(id) {
-        super(id, 'Mankey', 60, 'Fighting', 'Basic', 'Px2', "", '1c');
+        super(id, 'Mankey', 60, 'Fighting', 'Basic', 'Px2', "", 1);
         this._attacks = [{
             name: "Monkey Beatdown",
-            energy: '1f',
+            energy: 1,
             points: 30,
             description: 'This Pokemon also does 10 damage to itself.',
             enabled: true,
@@ -1074,10 +1036,10 @@ class Mankey extends Pokemon {
 
 class Primeape extends Pokemon {
     constructor(id) {
-        super(id, 'Primeape', 90, 'Fighting', 'Level 1', 'Px2', "", '1c', 'Mankey');
+        super(id, 'Primeape', 90, 'Fighting', 'Level 1', 'Px2', "", 1, 'Mankey');
         this._attacks = [{
             name: "Raging Punch",
-            energy: '1f',
+            energy: 1,
             points: 70,
             description: 'This Pokemon also does 20 damage to itself.',
             enabled: true,
@@ -1097,11 +1059,11 @@ class Primeape extends Pokemon {
 
 class Annihilape extends Pokemon {
     constructor(id) {
-        super(id, 'Annihilape', 140, 'Fighting', 'Level 2', 'Px2', "", '2c', 'Primeape');
+        super(id, 'Annihilape', 140, 'Fighting', 'Level 2', 'Px2', "", 2, 'Primeape');
         this._attacks = [
             {
             name: "Rage Fist",
-            energy: '1f',
+            energy: 1,
             points: 70,
             description: 'This attack does 70 damage for each Prize card your opponent has taken.',
             enabled: true,
@@ -1116,7 +1078,7 @@ class Annihilape extends Pokemon {
             },
             {
                 name: "Dynamite Punch",
-                energy: '2f',
+                energy: 2,
                 points: 170,
                 description: 'This Pokemon also does 50 damage to itself.',
                 enabled: true,
@@ -1136,10 +1098,10 @@ class Annihilape extends Pokemon {
 
 class Meditite extends Pokemon {
     constructor(id) {
-        super(id, 'Meditite', 60, 'Fighting', 'Basic', 'Px2', "", '1c');
+        super(id, 'Meditite', 60, 'Fighting', 'Basic', 'Px2', "", 1);
         this._attacks = [{
             name: "Feint",
-            energy: '1f',
+            energy: 1,
             points: 10,
             description: '',
             enabled: true,
@@ -1157,10 +1119,10 @@ class Meditite extends Pokemon {
 
 class Medicham extends Pokemon {
     constructor(id) {
-        super(id, 'Medicham', 90, 'Fighting', 'Level 1', 'Px2', "", '1c', 'Meditite');
+        super(id, 'Medicham', 90, 'Fighting', 'Level 1', 'Px2', "", 1, 'Meditite');
         this._attacks = [{
             name: "Acu-Punch-Ture",
-            energy: '1f',
+            energy: 1,
             points: 30,
             description: `Choose 1 of your opponent's Active Pokemon's attacks. During your opponent's next turn, this Pokemon can't use that attack.`,
             enabled: true,
@@ -1237,7 +1199,7 @@ class Medicham extends Pokemon {
         },
             {
                 name: "Kick Shot",
-                energy: '1f',
+                energy: 1,
                 points: 90,
                 description: `Flip a coin. If tails, this attack does nothing`,
                 enabled: true,
@@ -1260,10 +1222,10 @@ class Medicham extends Pokemon {
 
 class Riolu extends Pokemon {
     constructor(id) {
-        super(id, 'Riolu', 70, 'Fighting', 'Basic', 'Px2', "", '1c');
+        super(id, 'Riolu', 70, 'Fighting', 'Basic', 'Px2', "", 1);
         this._attacks = [{
             name: "Jab",
-            energy: '1f',
+            energy: 1,
             points: 10,
             description: ``,
             enabled: true,
@@ -1278,7 +1240,7 @@ class Riolu extends Pokemon {
         },
         {
             name: "Low Kick",
-            energy: '1f1c',
+            energy: 2,
             points: 20,
             description: ``,
             enabled: true,
@@ -1297,10 +1259,10 @@ class Riolu extends Pokemon {
 
 class Lucario extends Pokemon {
     constructor(id) {
-        super(id, 'Lucario', 260, 'Fighting', 'Level 1', 'Px2', "", '2c', 'Riolu');
+        super(id, 'Lucario', 260, 'Fighting', 'Level 1', 'Px2', "", 2, 'Riolu');
         this._attacks = [{
             name: "Low Sweep",
-            energy: '1f1c',
+            energy: 2,
             points: 60,
             description: ``,
             enabled: true,
@@ -1315,7 +1277,7 @@ class Lucario extends Pokemon {
         },
         {
             name: "Aura Sphere",
-            energy: '2f1c',
+            energy: 3,
             points: 160,
             description: `This attack also does 50 damage to one of your opponent's Benched Pokemon.`,
             enabled: true,
@@ -1362,10 +1324,10 @@ class Lucario extends Pokemon {
 
 class Squawkabilly extends Pokemon {
     constructor(id) {
-        super(id, 'Squawkabilly', 70, 'Colorless', 'Basic', 'Ex2', "F-30", '1c');
+        super(id, 'Squawkabilly', 70, 'Colorless', 'Basic', 'Ex2', "F-30", 1);
         this._attacks = [{
             name: "Call For Family",
-            energy: '1c',
+            energy: 1,
             points: 0,
             description: `Search your deck for up to 2 Basic Pokemons and put them onto your Bench.`,
             enabled: true,
@@ -1472,7 +1434,7 @@ class Squawkabilly extends Pokemon {
             },
         {
             name: "Fly",
-            energy: '2c',
+            energy: 2,
             points: 60,
             description: `Flip a coin. If tails, this attack does nothing. If heads, during your opponent's next turn, this Pokemon is invincible.`,
             enabled: true,
@@ -1511,13 +1473,13 @@ class Squawkabilly extends Pokemon {
 class Energy extends Card {
     constructor (id, name, type) {
         super(id, name, 'Energy');
-        this._type = type;
+        // this._type = type;
         this._location = 'Deck';
     }
 
-    get type () {
-        return this._type;
-    }    
+    // get type () {
+    //     return this._type;
+    // }    
 };
 
 class Trainer extends Card {
