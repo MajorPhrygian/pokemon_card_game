@@ -68,7 +68,22 @@ const createPokemonCardDisplay = (card, number) => {
         attackContainer.append(htmlAttackContent);
         x += 1;
     });
-    
+
+    // background color
+    let backgroundColor = 'rgb(228, 226, 226)';
+    switch (card.type) {
+        case 'Water':
+            backgroundColor = 'rgb(189, 205, 214)';
+            break;
+        case 'Fighting':
+            backgroundColor = 'rgb(249, 224, 187)';
+            break;
+        case 'Colorless':
+            backgroundColor = 'rgb(249, 224, 187)';
+            break;
+    }
+    displayCard.style.backgroundColor = backgroundColor;
+
     return displayCard;
 }
  
@@ -82,6 +97,18 @@ const createEnergyCardDisplay = (card, number) => {
             <div id="name">${card.name}</div>
         </div>
     `;
+
+    // background color
+    let backgroundColor = 'rgb(228, 226, 226)';
+    switch (card.name) {
+        case 'Water Energy':
+            backgroundColor = 'rgb(96, 150, 180)';
+            break;
+        case 'Fighting Energy':
+            backgroundColor = 'rgb(195, 129, 84)';
+            break;
+    }
+    displayCard.style.backgroundColor = backgroundColor;
 
     return displayCard;
 }
@@ -101,6 +128,18 @@ const createTrainerCardDisplay = (card, number) => {
             ${card.description}
         </div>
     `;
+    
+    // background color
+    let backgroundColor;
+    switch (card.category) {
+        case 'Supporter':
+            backgroundColor = 'rgb(174, 201, 212)';
+            break;
+        case 'Item':
+            backgroundColor = 'rgb(147, 191, 207)';
+            break;
+    }
+    displayCard.style.backgroundColor = backgroundColor;
 
     return displayCard;
 }
