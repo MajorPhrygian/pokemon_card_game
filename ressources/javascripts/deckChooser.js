@@ -30,10 +30,12 @@ const displayDeckChoices = async (player1, player2) => {
 
     let button1 = document.createElement('button');
     let button2 = document.createElement('button');
-    button1.innerHTML = 'Chien-Pao Deck'
-    button2.innerHTML = 'Lucario Deck'
+    button1.innerHTML = 'Chien-Pao Water Deck'
+    button2.innerHTML = 'Lucario Fighting Deck'
     button1.setAttribute('id','chien-pao-deck');
     button2.setAttribute('id','lucario-deck');
+    button1.setAttribute('class', 'deck-button');
+    button2.setAttribute('class', 'deck-button');
   
 
     html.appendChild(title);

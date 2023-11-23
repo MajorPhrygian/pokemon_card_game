@@ -44,6 +44,10 @@ header {
     background-color: rgb(221, 219, 219);
 }
 
+#card-display{
+    margin-bottom: 1rem;
+}
+
 #mat-header1,  #mat-header2 {
     display: flex;
     justify-content: space-between;
@@ -62,6 +66,16 @@ header {
 button {
     display: block;
     margin: auto;
+}
+
+.deck-button {
+    height: 2.5rem;
+    width: 25%;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    font-size: 1.5rem;
 }
 
 button:hover {
@@ -86,7 +100,8 @@ button:hover {
 }
 
 .card:hover {
-    border: 1px white solid;
+    /* border: 1px white solid; */
+    opacity: .7;
     /* background-color: hsl(56, 48%, 64%); */
 }
 
