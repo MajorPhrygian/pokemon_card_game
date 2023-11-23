@@ -264,7 +264,7 @@ class Pokemon extends Card {
 
 class Chien_Pao extends Pokemon {
     constructor (id){
-        super(id, 'Chien-Pao', 220, 'Water', 'Basic', 'Mx2', "", 2);
+        super(id, 'Chien-Pao EX', 220, 'Water', 'Basic', 'Mx2', "", 2, '---');
         this._ability = {
             name: 'Shivery Chill',
             description: 'Once during your turn, if this Pokemon is in the Active Spot, you may choose up to 2 Basic Water Energy card from your Deck, and put them into your hand.',
@@ -401,7 +401,7 @@ class Chien_Pao extends Pokemon {
 
 class Bruxish extends Pokemon {
     constructor (id){
-        super(id, 'Bruxish', 100, 'Water', 'Basic', 'Ex2', "", 1);
+        super(id, 'Bruxish', 100, 'Water', 'Basic', 'Ex2', "", 1, '---');
         this._attacks = [{
             name: "Vivid Charge",
             energy: 1,
@@ -504,7 +504,7 @@ class Bruxish extends Pokemon {
 
 class Buizel extends Pokemon {
     constructor (id){
-        super(id, 'Buizel', 70, 'Water', 'Basic', 'Ex2', "", 1);
+        super(id, 'Buizel', 70, 'Water', 'Basic', 'Ex2', "", 1, '---');
         this._attacks = [{
             name: "Rain Splash",
             energy: 1,
@@ -551,7 +551,7 @@ class Floatzel extends Pokemon {
             id: 8,
             
             effect(opposingPlayer, activePlayer, thisPokemon){
-                const totalPoints = this.points + 20 * activePlayer.active.waterEnergies;
+                const totalPoints = this.points + 20 * activePlayer.active.energyAmount;
                 clearTicker();
                 opposingPlayer.active.hpModifier(-totalPoints);
                 opposingPlayer.addToPokemonsToCheckIfDead(opposingPlayer.active);
@@ -722,7 +722,7 @@ class Baxcalibur extends Pokemon {
 
 class Delibird extends Pokemon {
     constructor (id){
-        super(id, 'Delibird', 90, 'Water', 'Basic', 'Mx2', "", 1);
+        super(id, 'Delibird', 90, 'Water', 'Basic', 'Mx2', "", 1, '---');
         this._attacks = [{
             name: "Double Draw",
             energy: 1,
@@ -759,7 +759,7 @@ class Delibird extends Pokemon {
 
 class Marill extends Pokemon {
     constructor (id){
-        super(id, 'Marill', 70, 'Water', 'Basic', 'Ex2', "", 1);
+        super(id, 'Marill', 70, 'Water', 'Basic', 'Ex2', "", 1, '---');
         this._attacks = [{
             name: "Bubble Drain",
             energy: 2,
@@ -839,7 +839,7 @@ class Azumarill extends Pokemon {
 
 class Cyclizar extends Pokemon {
     constructor (id){
-        super(id, 'Cyclizar', 110, 'Colorless', 'Basic', 'Fx2', "", 0);
+        super(id, 'Cyclizar', 110, 'Colorless', 'Basic', 'Fx2', "", 0, '---');
         this._attacks = [{
             name: "Touring",
             energy: 1,
@@ -876,7 +876,7 @@ class Cyclizar extends Pokemon {
 
 class Koraidon extends Pokemon {
     constructor (id){
-        super(id, 'Koraidon', 130, 'Fighting', 'Basic', 'Fx2', "", 2);
+        super(id, 'Koraidon', 130, 'Fighting', 'Basic', 'Fx2', "", 2, '---');
         this._attacks = [
         {
             name: "Claw Slash",
@@ -925,7 +925,7 @@ class Koraidon extends Pokemon {
 
 class Lechonk extends Pokemon {
     constructor (id){
-        super(id, 'Lechonk', 60, 'Colorless', 'Basic', 'Fx2', "", 1);
+        super(id, 'Lechonk', 60, 'Colorless', 'Basic', 'Fx2', "", 1, '---');
         this._attacks = [{
             name: "Collect",
             energy: 1,
@@ -1013,7 +1013,7 @@ class Oinkologne extends Pokemon {
 
 class Mankey extends Pokemon {
     constructor(id) {
-        super(id, 'Mankey', 60, 'Fighting', 'Basic', 'Px2', "", 1);
+        super(id, 'Mankey', 60, 'Fighting', 'Basic', 'Px2', "", 1, '---');
         this._attacks = [{
             name: "Monkey Beatdown",
             energy: 1,
@@ -1098,7 +1098,7 @@ class Annihilape extends Pokemon {
 
 class Meditite extends Pokemon {
     constructor(id) {
-        super(id, 'Meditite', 60, 'Fighting', 'Basic', 'Px2', "", 1);
+        super(id, 'Meditite', 60, 'Fighting', 'Basic', 'Px2', "", 1, '---');
         this._attacks = [{
             name: "Feint",
             energy: 1,
@@ -1222,7 +1222,7 @@ class Medicham extends Pokemon {
 
 class Riolu extends Pokemon {
     constructor(id) {
-        super(id, 'Riolu', 70, 'Fighting', 'Basic', 'Px2', "", 1);
+        super(id, 'Riolu', 70, 'Fighting', 'Basic', 'Px2', "", 1, '---');
         this._attacks = [{
             name: "Jab",
             energy: 1,
@@ -1259,7 +1259,7 @@ class Riolu extends Pokemon {
 
 class Lucario extends Pokemon {
     constructor(id) {
-        super(id, 'Lucario', 260, 'Fighting', 'Level 1', 'Px2', "", 2, 'Riolu');
+        super(id, 'Lucario EX', 260, 'Fighting', 'Level 1', 'Px2', "", 2, 'Riolu');
         this._attacks = [{
             name: "Low Sweep",
             energy: 2,
@@ -1324,7 +1324,7 @@ class Lucario extends Pokemon {
 
 class Squawkabilly extends Pokemon {
     constructor(id) {
-        super(id, 'Squawkabilly', 70, 'Colorless', 'Basic', 'Ex2', "F-30", 1);
+        super(id, 'Squawkabilly', 70, 'Colorless', 'Basic', 'Ex2', "F-30", 1, '---');
         this._attacks = [{
             name: "Call For Family",
             energy: 1,
@@ -1524,6 +1524,7 @@ class Youngster extends Supporter {
         player.shuffleDeck();
         player.drawFromDeck(5);
 
+        clearTicker();
         displayInTicker('Your hand will be renewed.')
         let continueButtonPromiseHolder = await continueButtonPromise('Go back to Actions', 'ticker');
     }

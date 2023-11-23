@@ -21,6 +21,7 @@ const createPokemonCardDisplay = (card, number) => {
         </div>
 
         <div id="card-footer">
+            <div id="evolves-from">Evolves from: ${card.evolvesFrom}</div>
             <div id="retreat-cost">Retreat cost: ${card.retreatCost} Energy</div>
         </div>
     `;
