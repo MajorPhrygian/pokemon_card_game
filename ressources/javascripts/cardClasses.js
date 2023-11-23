@@ -1354,6 +1354,7 @@ class Squawkabilly extends Pokemon {
 
                         // Adding chosen cards to bench
                         let chosenCard1 = activePlayer.extractCardOutOfDeck(chosenPokemonID1);
+                        activePlayer.shuffleDeck();
 
                         activePlayer.addToBench(chosenCard1);
 
@@ -1393,6 +1394,7 @@ class Squawkabilly extends Pokemon {
                                 // Adding chosen cards to bench
                                 let chosenCard1 = activePlayer.extractCardOutOfDeck(chosenPokemonID1);
                                 let chosenCard2 = activePlayer.extractCardOutOfDeck(chosenPokemonID2);
+                                activePlayer.shuffleDeck();
 
                                 activePlayer.addToBench(chosenCard1);
                                 activePlayer.addToBench(chosenCard2);
@@ -1561,6 +1563,7 @@ class Jacq extends Supporter {
                 // Adding chosen pokemons to hand
                 let chosenPokemon1 = player.extractCardOutOfDeck(chosenPokemonID1);
                 let chosenPokemon2 = player.extractCardOutOfDeck(chosenPokemonID2); 
+                player.shuffleDeck();
 
                 player.addToHand(chosenPokemon1);
                 player.addToHand(chosenPokemon2);
@@ -1687,6 +1690,7 @@ class GreatBall extends Item {
                 
                 // Adding chosen cards to hand
                 let chosenCard1 = player.extractCardOutOfDeck(chosenPokemonID);
+                player.shuffleDeck();
 
                 player.addToHand(chosenCard1);
 
@@ -1736,8 +1740,10 @@ class NestBall extends Item {
                 
                 // Adding chosen cards to hand
                 let chosenCard1 = player.extractCardOutOfDeck(chosenPokemonID);
+                player.shuffleDeck();
 
                 player.addToHand(chosenCard1);
+                
 
                 clearTicker();
                 displayInTicker(`Adding ${chosenCard1.name} to your hand.`);
@@ -1786,6 +1792,7 @@ class Pokegear extends Item {
                 
                 // Adding chosen cards to hand
                 let chosenCard1 = player.extractCardOutOfDeck(chosenSupporterID);
+                player.shuffleDeck();
 
                 player.addToHand(chosenCard1);
 
@@ -2041,6 +2048,7 @@ class UltraBall extends Item {
                 
                 // Adding chosen cards to hand
                 let chosenCard1 = player.extractCardOutOfDeck(chosenPokemonID);
+                player.shuffleDeck();
 
                 player.addToHand(chosenCard1);
 
