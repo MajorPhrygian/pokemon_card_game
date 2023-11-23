@@ -1,7 +1,6 @@
 import {Player} from "/ressources/javascripts/Player.js";
 import { setupPhase } from "./setupPhase.js";
 import { clearMain, displayHud, clearHeader} from "./cardDisplay.js";
-import {Arctibax, Chien_Pao, Energy, Frigibax, Potion, Squawkabilly, UltraBall } from "./cardClasses.js";
 import { matchManager } from "./matchManager.js";
  
 
