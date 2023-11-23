@@ -60,7 +60,7 @@ const turnManager = async (activePlayer, opposingPlayer) => {
     
     // STEP 1: Draw a card
     displayHud(activePlayer, opposingPlayer);
-    await turnDrawCard(activePlayer);
+    await turnDrawCard(activePlayer, opposingPlayer);
     clearHeader();
     
     // STEP 2: Options

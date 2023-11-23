@@ -15,7 +15,6 @@ const main = async () => {
     // FOR TESTS
     // player2.active = new Squawkabilly(1000);
     // player1.active = new Frigibax(1001);
-    player1._deck = [];
     // player2.active.addEnergy(new Energy(143, 'Fighting Energy', 'f'));
     // player2.active.addEnergy(new Energy(143, 'Fighting Energy', 'f'));
     // player2.active.addEnergy(new Energy(143, 'Fighting Energy', 'f'));

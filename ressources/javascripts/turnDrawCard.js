@@ -2,13 +2,13 @@ import { displayPhase, displayInTicker, clearHeader, continueButtonPromise, disp
 import { victory } from "./victory.js";
 
 
-const turnDrawCard = async player => {
+const turnDrawCard = async (player, opposingPlayer) => {
     // 1. Pick a card
     clearHeader();
     displayPhase('***TURN STEP #1: Picking a card.***');
     await continueButtonPromise('Draw a card','header');
     if (player.deck.length === 0) {
-        victory(player, 'Empty deck');
+        await victory(opposingPlayer, 'Empty deck');
         return;
     }
     let drawnedCard = player.drawFromDeck(1);
