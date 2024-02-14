@@ -43,16 +43,16 @@ const knockedOutCheck = async (playerToCheck, otherPlayer, shouldRevealPrize) =>
         for (let prizes = 0; prizes < numberOfPrizesToPick; prizes++) {
             let prize = otherPlayer.lastPrizeToHand();
             
+            // victory condition
+            if (otherPlayer.prizes.length === 0) {
+                await victory(otherPlayer, 'No more prizes');
+            }
+
             // Depending on value of shouldDisplayPrize, display the card picked to the player
             if (shouldRevealPrize) {
                 displayInTicker(`Your prize is: ${prize.name}.`);
             } else{
                 displayInTicker(`Player ${otherPlayer.playerNumber} has picked a prize. It has been added to his hand.`);
-            }
-
-            // victory condition
-            if (otherPlayer.prizes.length === 0) {
-                await victory(otherPlayer, 'No more prizes');
             }
         }
     }

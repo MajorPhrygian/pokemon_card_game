@@ -20,7 +20,7 @@ const choosingBasicsToBench = async (player, opposingPlayer, isSetup)=>{
         for (let x = 0; x < htmlPokemonCards.length; x++) {
             htmlPokemonCards[x].addEventListener('click', () => {
                 // retrieving the id from the chosen HTML card
-                htmlPokemonCards[x].style.border = 'black 1px solid';
+                htmlPokemonCards[x].style.border = 'black 2px solid';
                 chosenPokemonCardIDs.push(Number(htmlPokemonCards[x].id));
             })
         };

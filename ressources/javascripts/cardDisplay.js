@@ -414,6 +414,7 @@ const addAndReturnContinueButton = (customText, location)=>{
 
     let htmlLocation = document.getElementById(location);
     let continueButton = document.createElement('button');
+    continueButton.style.marginTop = "10px";
     continueButton.innerHTML = customText;
     htmlLocation.append(continueButton);
     return continueButton;
@@ -483,7 +484,7 @@ const setEventListnersOnCards = (cards) => {
         for(let x = 0; x < cards.length; x++) {
             cards[x].addEventListener('click',()=>{
                 // retrieving the id from the chosen HTML card
-                cards[x].style.border = 'black 1px solid';
+                cards[x].style.border = 'black 2px solid';
                 resolve(cards[x].id);
             })
         };
